@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL SHOP WRAPPED 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .story-container {
+            display: none;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-bar div {
+            flex: 1;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: background 0.3s;
+        }
+
+        .progress-bar .filled {
+            background: #ff5722;
+        }
+
+        .story {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            padding: 20px;
+            font-size: 24px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .navigation {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            cursor: pointer;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .story-container {
+                display: block;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            body::before {
+                content: 'Этот сайт доступен только на мобильных устройствах. Загляните к нам с телефона 📱';
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                font-size: 18px;
+                color: #fff;
+                background: #121212;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="story-container">
+        <div class="progress-bar">
+            <div class="filled"></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="story active" id="slide-1">
+            За этот год продано <strong>1000 товаров</strong>
+        </div>
+        <div class="story" id="slide-2">
+            Создано <strong>5000 платежей</strong>
+        </div>
+        <div class="story" id="slide-3">
+            Получено <strong>500 отзывов</strong>
+        </div>
+
+        <div class="navigation left" onclick="previousSlide()"></div>
+        <div class="navigation right" onclick="nextSlide()"></div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.story');
+        const progressBars = document.querySelectorAll('.progress-bar div');
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+
+            progressBars.forEach((bar, index) => {
+                bar.classList.toggle('filled', index <= currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+    </script>
+</body>
+</html>
