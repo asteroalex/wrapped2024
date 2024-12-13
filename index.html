@@ -22,7 +22,7 @@
     #content {
       text-align: center;
       font-size: 2rem;
-      opacity: 0;
+      opacity: 1;
       transition: opacity 1s ease-in-out;
     }
 
@@ -50,51 +50,21 @@
       }
     }
 
-    /* Анимация текста */
-    .fade-in {
-      opacity: 1;
-    }
-
-    .fade-out {
-      opacity: 0;
-    }
-
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      50% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    /* Плавное движение текста "Давайте перейдем на мобильную версию..." для ПК */
-    .floating-text {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.5rem;
-      animation: float 6s ease-in-out infinite;
-      display: none; /* Скрыто по умолчанию */
-    }
-
-    @keyframes float {
-      0% {
-        transform: translate(-50%, 0);
-        opacity: 0;
+    /* Мобильная версия */
+    @media (max-width: 1024px) {
+      /* Включаем анимацию частиц на мобильной версии */
+      .particle {
+        display: block;
       }
-      50% {
-        transform: translate(-50%, -20px);
+
+      /* Текст на мобильной версии просто меняется */
+      #content {
+        font-size: 1.5rem;
         opacity: 1;
       }
-      100% {
-        transform: translate(-50%, 0);
-        opacity: 0;
-      }
-    }
 
-    /* Показывать только на ПК-версии */
-    @media (min-width: 1024px) {
-      .floating-text {
-        display: block;
+      #timer {
+        display: none;
       }
     }
   </style>
@@ -104,9 +74,6 @@
     <div id="text">2024 - год чудес</div>
     <div id="timer"></div>
   </div>
-
-  <!-- Плавный текст для ПК-версии -->
-  <div class="floating-text">Давайте перейдем на мобильную версию...</div>
 
   <script>
     const texts = [
@@ -121,7 +88,6 @@
     const timerElement = document.getElementById("timer");
 
     function changeText() {
-      textElement.classList.remove("fade-in");
       textElement.classList.add("fade-out");
       setTimeout(() => {
         currentTextIndex++;
@@ -141,11 +107,11 @@
     function startTimer(seconds) {
       let remainingTime = seconds;
       timerElement.style.display = "block";
-      timerElement.textContent = `До следующего текста: ${remainingTime}s`;
+      timerElement.textContent = `${remainingTime}s`;
 
       const timerInterval = setInterval(() => {
         remainingTime--;
-        timerElement.textContent = `До следующего текста: ${remainingTime}s`;
+        timerElement.textContent = `${remainingTime}s`;
         if (remainingTime <= 0) {
           clearInterval(timerInterval);
           changeText();
@@ -155,7 +121,6 @@
 
     // Initial setup
     textElement.textContent = texts[0];
-    textElement.classList.add("fade-in");
     startTimer(10);
 
     // Particle effect
