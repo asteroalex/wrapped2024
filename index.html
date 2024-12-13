@@ -17,12 +17,13 @@
             color: #fff;
             overflow: hidden;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .story-container {
             display: none;
-            height: 100%;
-            width: 100%;
+            flex-grow: 1;
             position: relative;
         }
 
@@ -88,6 +89,14 @@
             right: 0;
         }
 
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: #1d1d1d;
+            font-size: 14px;
+            color: #ccc;
+        }
+
         @media (max-width: 1024px) {
             .story-container {
                 display: block;
@@ -131,10 +140,21 @@
         <div class="navigation right" onclick="nextSlide()"></div>
     </div>
 
+    <div class="footer" id="footer">
+        ASTERO - ATL SHOP 2024-2025
+    </div>
+
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.story');
         const progressBars = document.querySelectorAll('.progress-bar div');
+        const footer = document.getElementById('footer');
+
+        const footerTexts = [
+            "За этот год продано 1000 товаров",
+            "Создано 5000 платежей",
+            "Получено 500 отзывов"
+        ];
 
         function updateSlides() {
             slides.forEach((slide, index) => {
@@ -144,6 +164,8 @@
             progressBars.forEach((bar, index) => {
                 bar.classList.toggle('filled', index <= currentSlide);
             });
+
+            footer.textContent = `ASTERO - ATL SHOP 2024-2025 | ${footerTexts[currentSlide]}`;
         }
 
         function nextSlide() {
