@@ -31,6 +31,7 @@
       margin-top: 20px;
     }
 
+    /* Плавный эффект частиц */
     .particle {
       position: absolute;
       border-radius: 50%;
@@ -49,6 +50,7 @@
       }
     }
 
+    /* Анимация текста */
     .fade-in {
       opacity: 1;
     }
@@ -57,11 +59,43 @@
       opacity: 0;
     }
 
-    /* Timer animation */
     @keyframes fadeInOut {
       0% { opacity: 0; }
       50% { opacity: 1; }
       100% { opacity: 0; }
+    }
+
+    /* Плавное движение текста "Давайте перейдем на мобильную версию..." для ПК */
+    .floating-text {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      animation: float 6s ease-in-out infinite;
+      display: none; /* Скрыто по умолчанию */
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(-50%, 0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -20px);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, 0);
+        opacity: 0;
+      }
+    }
+
+    /* Показывать только на ПК-версии */
+    @media (min-width: 1024px) {
+      .floating-text {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -70,6 +104,9 @@
     <div id="text">2024 - год чудес</div>
     <div id="timer"></div>
   </div>
+
+  <!-- Плавный текст для ПК-версии -->
+  <div class="floating-text">Давайте перейдем на мобильную версию...</div>
 
   <script>
     const texts = [
