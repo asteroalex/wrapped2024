@@ -1,186 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATL SHOP WRAPPED 2024</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATL SHOP WRAPPED</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #121212;
-            color: #fff;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    #content {
+      text-align: center;
+      font-size: 2rem;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
 
-        .story-container {
-            display: none;
-            flex-grow: 1;
-            position: relative;
-        }
+    #timer {
+      font-size: 1rem;
+      margin-top: 20px;
+    }
 
-        .active {
-            display: block;
-        }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      animation: particle-animation 5s infinite;
+    }
 
-        .progress-bar {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3);
-            display: flex;
-            gap: 5px;
-        }
+    @keyframes particle-animation {
+      0% {
+        transform: scale(0) translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5) translate(200px, 200px);
+        opacity: 0;
+      }
+    }
 
-        .progress-bar div {
-            flex: 1;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.5);
-            transition: background 0.3s;
-        }
+    .fade-in {
+      opacity: 1;
+    }
 
-        .progress-bar .filled {
-            background: #ff5722;
-        }
+    .fade-out {
+      opacity: 0;
+    }
 
-        .story {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-            padding: 20px;
-            font-size: 24px;
-            animation: fadeIn 1s;
-        }
-
-        .changing-text {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #ff5722;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .navigation {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 50%;
-            cursor: pointer;
-        }
-
-        .left {
-            left: 0;
-        }
-
-        .right {
-            right: 0;
-        }
-
-        @media (max-width: 1024px) {
-            .story-container {
-                display: block;
-            }
-        }
-
-        @media (min-width: 1025px) {
-            body::before {
-                content: 'Этот сайт доступен только на мобильных устройствах. Загляните к нам с телефона 📱';
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                font-size: 18px;
-                color: #fff;
-                background: #121212;
-                text-align: center;
-            }
-        }
-    </style>
+    /* Timer animation */
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <div class="story-container">
-        <div class="progress-bar">
-            <div class="filled"></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div id="content">
+    <div id="text">2024 - год чудес</div>
+    <div id="timer"></div>
+  </div>
 
-        <div class="story" id="slide-1">
-            За этот год продано <strong>1000 товаров</strong>
-        </div>
-        <div class="story" id="slide-2">
-            Создано <strong>5000 платежей</strong>
-        </div>
-        <div class="story" id="slide-3">
-            Получено <strong>500 отзывов</strong>
-        </div>
+  <script>
+    const texts = [
+      "2024 - год чудес",
+      "Мы продали более 1000 товаров",
+      "Обслужили более 800 клиентов",
+      "Получили более 500 платежей"
+    ];
 
-        <div class="changing-text" id="changing-text">
-            ASTERO - ATL SHOP 2024-2025 | За этот год продано 1000 товаров
-        </div>
+    let currentTextIndex = 0;
+    const textElement = document.getElementById("text");
+    const timerElement = document.getElementById("timer");
 
-        <div class="navigation left" onclick="previousSlide()"></div>
-        <div class="navigation right" onclick="nextSlide()"></div>
-    </div>
-
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.story');
-        const progressBars = document.querySelectorAll('.progress-bar div');
-        const changingText = document.getElementById('changing-text');
-
-        const slideTexts = [
-            "За этот год продано 1000 товаров",
-            "Создано 5000 платежей",
-            "Получено 500 отзывов"
-        ];
-
-        function updateSlides() {
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
-
-            progressBars.forEach((bar, index) => {
-                bar.classList.toggle('filled', index <= currentSlide);
-            });
-
-            // Добавление префикса к тексту
-            changingText.textContent = `ASTERO - ATL SHOP 2024-2025 | ${slideTexts[currentSlide]}`;
+    function changeText() {
+      textElement.classList.remove("fade-in");
+      textElement.classList.add("fade-out");
+      setTimeout(() => {
+        currentTextIndex++;
+        if (currentTextIndex < texts.length) {
+          textElement.textContent = texts[currentTextIndex];
+          textElement.classList.remove("fade-out");
+          textElement.classList.add("fade-in");
+          if (currentTextIndex === texts.length - 1) {
+            timerElement.style.display = "none";
+          } else {
+            startTimer(10);
+          }
         }
+      }, 1000); // Wait for fade-out animation to finish
+    }
 
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updateSlides();
-            }
-        }
+    function startTimer(seconds) {
+      let remainingTime = seconds;
+      timerElement.style.display = "block";
+      timerElement.textContent = `До следующего текста: ${remainingTime}s`;
 
-        function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlides();
-            }
+      const timerInterval = setInterval(() => {
+        remainingTime--;
+        timerElement.textContent = `До следующего текста: ${remainingTime}s`;
+        if (remainingTime <= 0) {
+          clearInterval(timerInterval);
+          changeText();
         }
-    </script>
+      }, 1000);
+    }
+
+    // Initial setup
+    textElement.textContent = texts[0];
+    textElement.classList.add("fade-in");
+    startTimer(10);
+
+    // Particle effect
+    function createParticles() {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+      document.body.appendChild(particle);
+
+      const size = Math.random() * 10 + 5;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+
+      const startX = Math.random() * window.innerWidth;
+      const startY = Math.random() * window.innerHeight;
+      particle.style.left = `${startX}px`;
+      particle.style.top = `${startY}px`;
+
+      const animationDuration = Math.random() * 5 + 5;
+      particle.style.animationDuration = `${animationDuration}s`;
+
+      setTimeout(() => {
+        particle.remove();
+      }, animationDuration * 1000);
+    }
+
+    setInterval(createParticles, 200);
+
+  </script>
 </body>
 </html>
