@@ -164,7 +164,8 @@
                 bar.classList.toggle('filled', index <= currentSlide);
             });
 
-            changingText.textContent = slideTexts[currentSlide];
+            // Добавление префикса к тексту
+            changingText.textContent = `ASTERO - ATL SHOP 2024-2025 | ${slideTexts[currentSlide]}`;
         }
 
         function nextSlide() {
