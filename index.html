@@ -96,21 +96,9 @@
             right: 0;
         }
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background: #1d1d1d;
-            font-size: 14px;
-            color: #ccc;
-        }
-
         @media (max-width: 1024px) {
             .story-container {
                 display: block;
-            }
-
-            .footer {
-                display: none;
             }
         }
 
@@ -137,38 +125,35 @@
             <div></div>
         </div>
 
-        <div class="story active" id="slide-1">
+        <div class="story" id="slide-1">
             За этот год продано <strong>1000 товаров</strong>
-            <div class="changing-text" id="changing-text">
-                ASTERO - ATL SHOP 2024-2025 | За этот год продано 1000 товаров
-            </div>
         </div>
         <div class="story" id="slide-2">
             Создано <strong>5000 платежей</strong>
-            <div class="changing-text" id="changing-text">
-                ASTERO - ATL SHOP 2024-2025 | Создано 5000 платежей
-            </div>
         </div>
         <div class="story" id="slide-3">
             Получено <strong>500 отзывов</strong>
-            <div class="changing-text" id="changing-text">
-                ASTERO - ATL SHOP 2024-2025 | Получено 500 отзывов
-            </div>
+        </div>
+
+        <div class="changing-text" id="changing-text">
+            ASTERO - ATL SHOP 2024-2025 | За этот год продано 1000 товаров
         </div>
 
         <div class="navigation left" onclick="previousSlide()"></div>
         <div class="navigation right" onclick="nextSlide()"></div>
     </div>
 
-    <div class="footer">
-        ASTERO - ATL SHOP 2024-2025
-    </div>
-
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.story');
         const progressBars = document.querySelectorAll('.progress-bar div');
-        const changingTextElements = document.querySelectorAll('.changing-text');
+        const changingText = document.getElementById('changing-text');
+
+        const slideTexts = [
+            "За этот год продано 1000 товаров",
+            "Создано 5000 платежей",
+            "Получено 500 отзывов"
+        ];
 
         function updateSlides() {
             slides.forEach((slide, index) => {
@@ -178,6 +163,8 @@
             progressBars.forEach((bar, index) => {
                 bar.classList.toggle('filled', index <= currentSlide);
             });
+
+            changingText.textContent = slideTexts[currentSlide];
         }
 
         function nextSlide() {
