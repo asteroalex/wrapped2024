@@ -55,6 +55,7 @@
 
         .story {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -62,6 +63,12 @@
             padding: 20px;
             font-size: 24px;
             animation: fadeIn 1s;
+        }
+
+        .changing-text {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff5722;
         }
 
         @keyframes fadeIn {
@@ -101,6 +108,10 @@
             .story-container {
                 display: block;
             }
+
+            .footer {
+                display: none;
+            }
         }
 
         @media (min-width: 1025px) {
@@ -128,19 +139,28 @@
 
         <div class="story active" id="slide-1">
             За этот год продано <strong>1000 товаров</strong>
+            <div class="changing-text" id="changing-text">
+                ASTERO - ATL SHOP 2024-2025 | За этот год продано 1000 товаров
+            </div>
         </div>
         <div class="story" id="slide-2">
             Создано <strong>5000 платежей</strong>
+            <div class="changing-text" id="changing-text">
+                ASTERO - ATL SHOP 2024-2025 | Создано 5000 платежей
+            </div>
         </div>
         <div class="story" id="slide-3">
             Получено <strong>500 отзывов</strong>
+            <div class="changing-text" id="changing-text">
+                ASTERO - ATL SHOP 2024-2025 | Получено 500 отзывов
+            </div>
         </div>
 
         <div class="navigation left" onclick="previousSlide()"></div>
         <div class="navigation right" onclick="nextSlide()"></div>
     </div>
 
-    <div class="footer" id="footer">
+    <div class="footer">
         ASTERO - ATL SHOP 2024-2025
     </div>
 
@@ -148,13 +168,7 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.story');
         const progressBars = document.querySelectorAll('.progress-bar div');
-        const footer = document.getElementById('footer');
-
-        const footerTexts = [
-            "За этот год продано 1000 товаров",
-            "Создано 5000 платежей",
-            "Получено 500 отзывов"
-        ];
+        const changingTextElements = document.querySelectorAll('.changing-text');
 
         function updateSlides() {
             slides.forEach((slide, index) => {
@@ -164,8 +178,6 @@
             progressBars.forEach((bar, index) => {
                 bar.classList.toggle('filled', index <= currentSlide);
             });
-
-            footer.textContent = `ASTERO - ATL SHOP 2024-2025 | ${footerTexts[currentSlide]}`;
         }
 
         function nextSlide() {
